@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>helloworld</groupId>
@@ -33,9 +33,9 @@
         </dependency>
 
         <dependency>
-          <groupId>com.amazonaws</groupId>
-          <artifactId>aws-lambda-java-events</artifactId>
-          <version>${aws.lambda.java.events.version}</version>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-lambda-java-events</artifactId>
+            <version>${aws.lambda.java.events.version}</version>
         </dependency>
 
     </dependencies>
@@ -55,48 +55,49 @@
 
     <build>
         <finalName>${project.artifactId}</finalName>
-      <plugins>
 
-          <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-compiler-plugin</artifactId>
-              <version>${maven.compiler.plugin.version}</version>
-          </plugin>
+        <plugins>
 
-          <plugin>
-              <artifactId>maven-assembly-plugin</artifactId>
-              <version>${maven.assembly.plugin.version}</version>
-              <executions>
-                  <execution>
-                      <phase>package</phase>
-                      <goals>
-                          <goal>single</goal>
-                      </goals>
-                  </execution>
-              </executions>
-              <configuration>
-                  <appendAssemblyId>false</appendAssemblyId>
-                  <descriptors>
-                      <descriptor>src/assembly/lambda-zip.xml</descriptor>
-                  </descriptors>
-                  <finalName>${project.artifactId}</finalName>
-              </configuration>
-          </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+            </plugin>
 
-          <plugin>
-              <groupId>io.github.zlika</groupId>
-              <artifactId>reproducible-build-maven-plugin</artifactId>
-              <version>${maven.reproducible.build.plugin.version}</version>
-              <executions>
-                  <execution>
-                      <phase>package</phase>
-                      <goals>
-                          <goal>strip-jar</goal>
-                      </goals>
-                  </execution>
-              </executions>
-          </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven.assembly.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>src/assembly/lambda-zip.xml</descriptor>
+                    </descriptors>
+                    <finalName>${project.artifactId}</finalName>
+                </configuration>
+            </plugin>
 
-      </plugins>
+            <plugin>
+                <groupId>io.github.zlika</groupId>
+                <artifactId>reproducible-build-maven-plugin</artifactId>
+                <version>${maven.reproducible.build.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>strip-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
     </build>
 </project>

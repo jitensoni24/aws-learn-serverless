@@ -13,12 +13,12 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 
-public class App implements RequestHandler<String, Map<String,String>> {
+public class App implements RequestHandler<String, Map<String, String>> {
 
     /*
-    * altered the method arguments
-    * removed apigateway parameter and used simple string input
-    * */
+     * altered the method arguments
+     * removed apigateway parameter and used simple string input
+     * */
     public Map<String, String> handleRequest(final String input, final Context context) {
 
         Map<String, String> myMap = new HashMap<>();
@@ -27,9 +27,9 @@ public class App implements RequestHandler<String, Map<String,String>> {
         return myMap;
     }
 
-    private String getPageContents(String address) throws IOException{
+    private String getPageContents(String address) throws IOException {
         URL url = new URL(address);
-        try(BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()))) {
             return br.lines().collect(Collectors.joining(System.lineSeparator()));
         }
     }
