@@ -1,4 +1,4 @@
-package com.bskyb.aws.poc.lambdatos3;
+package com.bskyb.aws.lambda;
 
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.http.apache.ApacheHttpClient;

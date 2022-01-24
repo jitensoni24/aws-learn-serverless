@@ -7,7 +7,7 @@
     <version>1.0</version>
     <packaging>jar</packaging>
 
-    <name>A Hello World SAM CLI.</name>
+    <name>hello-world-lambda</name>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
