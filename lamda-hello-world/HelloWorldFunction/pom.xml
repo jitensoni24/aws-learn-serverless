@@ -1,0 +1,102 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>helloworld</groupId>
+    <artifactId>hello-world-lambad</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+
+    <name>A Hello World SAM CLI.</name>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+
+        <!-- Project Dependencies -->
+        <aws.java.sdk.version>2.17.102</aws.java.sdk.version>
+        <aws.lambda.java.version>1.2.1</aws.lambda.java.version>
+        <aws.lambda.java.events.version>3.6.0</aws.lambda.java.events.version>
+
+        <!-- plugins-->
+        <maven.compiler.plugin.version>3.6.1</maven.compiler.plugin.version>
+        <maven.assembly.plugin.version>3.3.0</maven.assembly.plugin.version>
+        <maven.reproducible.build.plugin.version>0.15</maven.reproducible.build.plugin.version>
+
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-lambda-java-core</artifactId>
+            <version>${aws.lambda.java.version}</version>
+        </dependency>
+
+        <dependency>
+          <groupId>com.amazonaws</groupId>
+          <artifactId>aws-lambda-java-events</artifactId>
+          <version>${aws.lambda.java.events.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- AWS BOM -->
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>${aws.java.sdk.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+      <plugins>
+
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>${maven.compiler.plugin.version}</version>
+          </plugin>
+
+          <plugin>
+              <artifactId>maven-assembly-plugin</artifactId>
+              <version>${maven.assembly.plugin.version}</version>
+              <executions>
+                  <execution>
+                      <phase>package</phase>
+                      <goals>
+                          <goal>single</goal>
+                      </goals>
+                  </execution>
+              </executions>
+              <configuration>
+                  <appendAssemblyId>false</appendAssemblyId>
+                  <descriptors>
+                      <descriptor>src/assembly/lambda-zip.xml</descriptor>
+                  </descriptors>
+                  <finalName>${project.artifactId}</finalName>
+              </configuration>
+          </plugin>
+
+          <plugin>
+              <groupId>io.github.zlika</groupId>
+              <artifactId>reproducible-build-maven-plugin</artifactId>
+              <version>${maven.reproducible.build.plugin.version}</version>
+              <executions>
+                  <execution>
+                      <phase>package</phase>
+                      <goals>
+                          <goal>strip-jar</goal>
+                      </goals>
+                  </execution>
+              </executions>
+          </plugin>
+
+      </plugins>
+    </build>
+</project>
