@@ -1,8 +1,8 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
-  lambda-file-s3
-  JS lambda-file-s3 Demo
+  lambda-to-s3
+  JS lambda-to-s3 Demo
 Globals:
   Function:
     Timeout: 20

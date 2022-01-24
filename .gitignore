@@ -293,10 +293,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,eclipse,java,linux,macos,windows,maven
-/lamda-hello-world/samconfig.toml
-/lamda-file-s3/samconfig.toml
-/lamda-file-s3/.aws-sam/
-/lamda-hello-world/.aws-sam/
-/lamda-hello-world/.idea/
-/lamda-file-s3/.idea/
-/.idea/
+**/samconfig.toml
+**/.aws-sam/
+**/.idea/
