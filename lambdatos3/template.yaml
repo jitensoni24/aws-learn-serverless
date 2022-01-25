@@ -18,8 +18,8 @@ Resources:
   LambdaToS3:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: LambdaToS3
-      Handler: com.bskyb.aws.poc.lambdatos3.App::handleRequest
+      CodeUri: LambdaToS3Function
+      Handler: com.bskyb.aws.lambda.App::handleRequest
       Runtime: java11
       Architectures:
         - x86_64

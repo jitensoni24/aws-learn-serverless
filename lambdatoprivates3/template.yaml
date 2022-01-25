@@ -2,44 +2,49 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >
   LambdaToPrivateS3
-
   SAM Template for LambdaToPrivateS3
 
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 20
+    Timeout: 10
 
 Resources:
-  HelloWorldFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  ResultsS3Bucket:
+    Type: AWS::S3::Bucket
     Properties:
-      CodeUri: HelloWorldFunction
-      Handler: helloworld.App::handleRequest
+      BucketName: js-lambda-to-private-s3-results
+      AccessControl: PublicRead
+    DeletionPolicy: Delete
+
+  WriteToS3Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: WriteToS3Function
+      Handler: com.bskyb.aws.lambda.App::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
       MemorySize: 512
-      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+      Environment:
         Variables:
-          PARAM1: VALUE
-      Events:
-        HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /hello
-            Method: get
+          ENV_NAME: AWS
+          RESULTS_BUCKET: !Ref ResultsS3Bucket
+      Policies:
+        - S3WritePolicy:
+            BucketName: !Ref ResultsS3Bucket
 
 Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+  WriteToS3Function:
+    Description: "WriteToS3Function Lambda Function ARN"
+    Value: !GetAtt WriteToS3Function.Arn
+  WriteToS3FunctionIamRole:
+    Description: "Implicit IAM Role created for WriteToS3Function"
+    Value: !GetAtt WriteToS3FunctionRole.Arn
+  S3BucketSecureURL:
+    Value: !Join
+      - ''
+      - - 'https://'
+        - !GetAtt
+          - ResultsS3Bucket
+          - DomainName
+    Description: Name of S3 bucket to hold results content

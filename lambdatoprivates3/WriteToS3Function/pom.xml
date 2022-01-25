@@ -10,46 +10,107 @@
     <name>lambda-to-private-s3</name>
 
     <properties>
+        <!-- Build Dependencies -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.plugin.version>3.6.1</maven.compiler.plugin.version>
+        <maven.assembly.plugin.version>3.3.0</maven.assembly.plugin.version>
+        <maven.reproducible.build.plugin.version>0.15</maven.reproducible.build.plugin.version>
+
+        <!--aws dependencies-->
+        <aws.java.sdk.version>2.17.102</aws.java.sdk.version>
+        <aws-lambda-java-core.version>1.2.1</aws-lambda-java-core.version>
+        <aws-lambda-java-events.version>3.6.0</aws-lambda-java-events.version>
+
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-lambda-java-core</artifactId>
-            <version>1.2.1</version>
+            <version>${aws-lambda-java-core.version}</version>
         </dependency>
+
         <dependency>
-          <groupId>com.amazonaws</groupId>
-          <artifactId>aws-lambda-java-events</artifactId>
-          <version>3.6.0</version>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-lambda-java-events</artifactId>
+            <version>${aws-lambda-java-events.version}</version>
         </dependency>
+
+
         <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-          <version>4.13.1</version>
-          <scope>test</scope>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>apache-client</artifactId>
+        </dependency>
+
     </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- AWS BOM -->
+            <!-- Docs: https://aws.amazon.com/sdk-for-java/ -->
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>${aws.java.sdk.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <build>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-shade-plugin</artifactId>
-          <version>3.2.4</version>
-          <configuration>
-          </configuration>
-          <executions>
-            <execution>
-              <phase>package</phase>
-              <goals>
-                <goal>shade</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+            </plugin>
+
+            <!--https://github.com/awslabs/aws-serverless-java-container/issues/133#issuecomment-399079415-->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven.assembly.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>zip-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <finalName>${project.artifactId}</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>src/assembly/lambda-zip.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>io.github.zlika</groupId>
+                <artifactId>reproducible-build-maven-plugin</artifactId>
+                <version>${maven.reproducible.build.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>strip-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
     </build>
 </project>
