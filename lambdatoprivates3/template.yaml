@@ -3,16 +3,23 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   LambdaToPrivateS3
   SAM Template for LambdaToPrivateS3
-
+# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-specification-template-anatomy-globals.html
 Globals:
   Function:
     Timeout: 10
+
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html
+Parameters:
+  FunctionName:
+    Type: String
+    Default: js-lambda-to-private-s3
+    Description: Name of lambda function
 
 Resources:
   ResultsS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: js-lambda-to-private-s3-results
+      BucketName: !Sub '${FunctionName}-results'
       AccessControl: PublicRead
     DeletionPolicy: Delete
 
