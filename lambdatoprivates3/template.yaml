@@ -25,6 +25,8 @@ Resources:
 
   WriteToS3Function:
     Type: AWS::Serverless::Function
+    FunctionName: !Sub '${FunctionName}'
+    Description: This lambda function is responsible for writing content from private subnet into S3 bucket
     Properties:
       CodeUri: WriteToS3Function
       Handler: com.bskyb.aws.lambda.App::handleRequest
