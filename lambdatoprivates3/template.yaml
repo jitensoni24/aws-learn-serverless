@@ -56,4 +56,4 @@ Outputs:
         - !GetAtt
           - ResultsS3Bucket
           - DomainName
-    Description: Name of S3 bucket to hold results content
+    Description: Name of S3 bucket to hold results content join ['join char', list of objs]
