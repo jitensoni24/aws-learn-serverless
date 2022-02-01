@@ -1,4 +1,4 @@
-package book;
+package com.bskyb.aws.lambda;
 
 public class HelloWorld {
 

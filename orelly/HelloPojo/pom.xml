@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.bskyb.aws.lambda</groupId>
-  <artifactId>hello-world-lambda-java</artifactId>
+  <artifactId>hello-pojo</artifactId>
   <version>0.0.1</version>
 
   <properties>
