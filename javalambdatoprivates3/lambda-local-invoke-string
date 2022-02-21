@@ -14,10 +14,10 @@ aws lambda invoke \
 --profile nonprod \
 --invocation-type RequestResponse \
 --cli-binary-format raw-in-base64-out \
---function-name HelloWorldJava \
+--function-name js-lambda-to-private-s3 \
 --payload \"world\" \
 outputfile.txt
 
 
 # cleanup
-aws cloudformation delete-stack --stack-name jit-helloworld-lambda --profile nonprod
+aws cloudformation delete-stack --stack-name js-lambda-to-private-s3 --profile nonprod

@@ -11,4 +11,4 @@ Resources:
       Runtime: java8
       MemorySize: 512
       Handler: com.bskyb.aws.lambda.HelloPojo::handler
-      CodeUri: target/lambda.jar
+      CodeUri: .

@@ -13,7 +13,7 @@ Parameters:
   FunctionName:
     Type: String
     Default: js-lambda-to-private-s3
-    Description: Name of lambda function
+    Description: Lambda function to write to private s3 bucket
 
 Resources:
   ResultsS3Bucket:
